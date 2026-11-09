@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Camera Source Loading</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    height:100vh;
+    background:
+    radial-gradient(circle at top,#1b2735,#090909);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Tahoma,Arial,sans-serif;
+    color:white;
+}
+
+
+.container{
+
+    width:90%;
+    max-width:550px;
+
+    background:rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(12px);
+
+    border:1px solid rgba(255,255,255,0.15);
+
+    border-radius:20px;
+
+    padding:35px 25px;
+
+    text-align:center;
+
+    box-shadow:
+    0 0 40px rgba(0,0,0,.5);
+
+}
+
+
+
+.icon{
+
+    font-size:45px;
+    margin-bottom:15px;
+
+}
+
+
+h1{
+
+    font-size:24px;
+    margin:10px 0 15px;
+
+}
+
+
+.subtitle{
+
+    color:#aaa;
+
+    font-size:14px;
+
+    margin-bottom:30px;
+
+}
+
+
+
+.progress-box{
+
+    width:100%;
+
+    height:28px;
+
+    background:#222;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    border:1px solid #444;
+
+}
+
+
+
+.progress{
+
+    height:100%;
+
+    width:0%;
+
+    background:
+    linear-gradient(90deg,#00ff88,#00bfff);
+
+    border-radius:20px;
+
+    position:relative;
+
+    transition:width 1s linear;
+
+}
+
+
+
+.progress::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:-50px;
+
+    width:50px;
+
+    height:100%;
+
+    background:rgba(255,255,255,.35);
+
+    animation:shine 2s infinite;
+
+}
+
+
+@keyframes shine{
+
+    from{
+        left:-50px;
+    }
+
+    to{
+        left:100%;
+    }
+
+}
+
+
+
+.percent{
+
+    font-size:35px;
+
+    font-weight:bold;
+
+    margin-top:20px;
+
+}
+
+
+
+.status{
+
+    margin-top:10px;
+
+    color:#00ff88;
+
+    font-size:15px;
+
+}
+
+
+
+.warning{
+
+    margin-top:30px;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    background:rgba(255,0,0,.12);
+
+    color:#ff7070;
+
+    font-size:15px;
+
+}
+
+
+
+.footer{
+
+    margin-top:20px;
+
+    color:#666;
+
+    font-size:12px;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<div class="icon">📡</div>
+
+
+<h1>
+در حال بارگذاری سورس دوربین مخفی می‌باشد
+</h1>
+
+
+<div class="subtitle">
+لطفاً تا پایان پردازش صفحه را نبندید
+</div>
+
+
+
+<div class="progress-box">
+
+<div class="progress" id="bar"></div>
+
+</div>
+
+
+
+<div class="percent" id="percent">
+0%
+</div>
+
+
+<div class="status" id="status">
+در حال اتصال به منبع...
+</div>
+
+
+
+<div class="warning">
+
+⚠ لطفاً این صفحه بسته نشود
+
+</div>
+
+
+<div class="footer">
+Secure Processing System
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+let start = Date.now();
+
+
+let first = 8 * 60 * 1000;  
+
+let second = 27 * 60 * 1000;
+
+
+
+let bar=document.getElementById("bar");
+
+let percent=document.getElementById("percent");
+
+let status=document.getElementById("status");
+
+
+
+setInterval(()=>{
+
+
+let elapsed=Date.now()-start;
+
+let value;
+
+
+
+if(elapsed < first){
+
+value=(elapsed/first)*50;
+
+status.innerHTML="در حال دریافت اطلاعات اولیه...";
+
+
+}
+
+else{
+
+
+let e=elapsed-first;
+
+value=50+(e/second)*50;
+
+status.innerHTML="در حال پردازش داده‌ها...";
+
+
+}
+
+
+
+if(value>=100){
+
+value=100;
+
+status.innerHTML="پردازش کامل شد";
+
+}
+
+
+
+bar.style.width=value+"%";
+
+percent.innerHTML=Math.floor(value)+"%";
+
+
+
+},1000);
+
+
+
+</script>
+
+
+</body>
+</html>
